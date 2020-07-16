@@ -1,2 +1,2 @@
 # sikon
-Lemme monitor your websites!
+Lemme monitor your things!
