@@ -34,7 +34,6 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                     Modified = table.Column<DateTimeOffset>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
                     MemberUsername = table.Column<string>(nullable: true),
-                    MemberUsername1 = table.Column<string>(nullable: true),
                     FriendlyName = table.Column<string>(nullable: true),
                     TargetAddress = table.Column<string>(nullable: true),
                     PortNumber = table.Column<int>(nullable: false),
@@ -48,17 +47,17 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_TCPEndpoints", x => x.TCPEndpointID);
                     table.ForeignKey(
-                        name: "FK_TCPEndpoints_Members_MemberUsername1",
-                        column: x => x.MemberUsername1,
+                        name: "FK_TCPEndpoints_Members_MemberUsername",
+                        column: x => x.MemberUsername,
                         principalTable: "Members",
                         principalColumn: "MemberUsername",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TCPEndpoints_MemberUsername1",
+                name: "IX_TCPEndpoints_MemberUsername",
                 table: "TCPEndpoints",
-                column: "MemberUsername1");
+                column: "MemberUsername");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

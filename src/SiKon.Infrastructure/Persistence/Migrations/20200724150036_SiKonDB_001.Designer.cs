@@ -10,7 +10,7 @@ using SiKon.Infrastructure.Persistence;
 namespace SiKon.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SiKonDBContext))]
-    [Migration("20200724144002_SiKonDB_001")]
+    [Migration("20200724150036_SiKonDB_001")]
     partial class SiKonDB_001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,9 +72,6 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MemberUsername")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemberUsername1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Modified")
@@ -97,7 +94,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
 
                     b.HasKey("TCPEndpointID");
 
-                    b.HasIndex("MemberUsername1");
+                    b.HasIndex("MemberUsername");
 
                     b.ToTable("TCPEndpoints");
                 });
@@ -106,7 +103,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("SiKon.Domain.Entities.Member", "Member")
                         .WithMany("TCPEndpoints")
-                        .HasForeignKey("MemberUsername1");
+                        .HasForeignKey("MemberUsername");
                 });
 #pragma warning restore 612, 618
         }

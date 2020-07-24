@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using SiKon.Domain.Common;
 
 namespace SiKon.Domain.Entities
@@ -9,8 +8,6 @@ namespace SiKon.Domain.Entities
         [Key]
         public int TCPEndpointID { get; set; }
 
-        [ForeignKey(nameof(MemberUsername))]
-        public string MemberUsername { get; set; }
         public Member Member { get; set; }
 
         public string FriendlyName { get; set; }

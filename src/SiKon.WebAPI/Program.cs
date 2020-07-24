@@ -24,7 +24,7 @@ namespace SiKon.WebAPI
                     var context = services.GetRequiredService<SiKonDBContext>();
                     context.Database.Migrate();
 
-                    //await IPMANDBContextSeedingData.SeedSampleDataAsync(context);
+                    await SiKonDBContextSeedingData.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)
                 {

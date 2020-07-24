@@ -70,9 +70,6 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MemberUsername")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemberUsername1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTimeOffset>("Modified")
@@ -95,7 +92,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
 
                     b.HasKey("TCPEndpointID");
 
-                    b.HasIndex("MemberUsername1");
+                    b.HasIndex("MemberUsername");
 
                     b.ToTable("TCPEndpoints");
                 });
@@ -104,7 +101,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("SiKon.Domain.Entities.Member", "Member")
                         .WithMany("TCPEndpoints")
-                        .HasForeignKey("MemberUsername1");
+                        .HasForeignKey("MemberUsername");
                 });
 #pragma warning restore 612, 618
         }
