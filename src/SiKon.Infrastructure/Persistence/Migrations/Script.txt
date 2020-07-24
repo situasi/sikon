@@ -1,0 +1,4 @@
+﻿dotnet ef database drop --project src/SiKon.Infrastructure --startup-project src/SiKon.WebAPI --force
+dotnet ef migrations remove --project src/SiKon.Infrastructure --startup-project src/SiKon.WebAPI
+dotnet ef migrations add SiKonDB_001 --project src/SiKon.Infrastructure --startup-project src/SiKon.WebAPI --output-dir Persistence/Migrations
+dotnet ef database update --project src/SiKon.Infrastructure --startup-project src/SiKon.WebAPI
