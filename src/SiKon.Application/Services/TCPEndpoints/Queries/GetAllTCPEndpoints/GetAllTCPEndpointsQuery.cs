@@ -7,19 +7,24 @@ namespace SiKon.Application.Services.TCPEndpoints.Queries.GetAllTCPEndpoints
 {
     public static class GetAllTCPEndpointsQuery
     {
-        public static async Task<GetAllTCPEndpointResponse> Handle1(ISiKonDBContext database)
+        public static async Task<GetAllTCPEndpointsResponse> HandleWithEFCore(ISiKonDBContext database)
         {
-            var tcpEndpoints = await database.TCPEndpoints.ToListAsync();
+            var tcpEndpoints = await database.TCPEndpoints
+                .Include(x => x.Member)
+                .ToListAsync();
 
-            GetAllTCPEndpointResponse response = new GetAllTCPEndpointResponse();
+            GetAllTCPEndpointsResponse response = new GetAllTCPEndpointsResponse();
 
             foreach (var tcpEndpoint in tcpEndpoints)
             {
                 TCPEndpointDTO tcpEndpointDTO = new TCPEndpointDTO
                 {
+                    MemberID = tcpEndpoint.Member.MemberID,
                     FriendlyName = tcpEndpoint.FriendlyName,
                     TargetAddress = tcpEndpoint.TargetAddress,
-                    PortNumber = tcpEndpoint.PortNumber
+                    PortNumber = tcpEndpoint.PortNumber,
+                    MemberUsername = tcpEndpoint.Member.Username,
+                    MemberFullName = tcpEndpoint.Member.FullName
                 };
 
                 response.TCPEndpoints.Add(tcpEndpointDTO);
@@ -28,19 +33,22 @@ namespace SiKon.Application.Services.TCPEndpoints.Queries.GetAllTCPEndpoints
             return response;
         }
 
-        public static async Task<GetAllTCPEndpointResponse> Handle2(IUnitOfWork _unitOfWork)
+        public static async Task<GetAllTCPEndpointsResponse> HandleWithDapper(IUnitOfWork _unitOfWork)
         {
-            var tcpEndpoints = (await _unitOfWork.TCPEndpoints.GetAll()).ToList();
+            var tcpEndpoints = (await _unitOfWork.TCPEndpoints.GetAllIncludeMember()).ToList();
 
-            GetAllTCPEndpointResponse response = new GetAllTCPEndpointResponse();
+            GetAllTCPEndpointsResponse response = new GetAllTCPEndpointsResponse();
 
             foreach (var tcpEndpoint in tcpEndpoints)
             {
                 TCPEndpointDTO tcpEndpointDTO = new TCPEndpointDTO
                 {
+                    MemberID = tcpEndpoint.Member.MemberID,
                     FriendlyName = tcpEndpoint.FriendlyName,
                     TargetAddress = tcpEndpoint.TargetAddress,
-                    PortNumber = tcpEndpoint.PortNumber
+                    PortNumber = tcpEndpoint.PortNumber,
+                    MemberUsername = tcpEndpoint.Member.Username,
+                    MemberFullName = tcpEndpoint.Member.FullName
                 };
 
                 response.TCPEndpoints.Add(tcpEndpointDTO);

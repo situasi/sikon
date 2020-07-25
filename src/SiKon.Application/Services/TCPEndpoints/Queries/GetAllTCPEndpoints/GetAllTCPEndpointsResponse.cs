@@ -2,11 +2,11 @@
 
 namespace SiKon.Application.Services.TCPEndpoints.Queries.GetAllTCPEndpoints
 {
-    public class GetAllTCPEndpointResponse
+    public class GetAllTCPEndpointsResponse
     {
         public IList<TCPEndpointDTO> TCPEndpoints { get; set; }
 
-        public GetAllTCPEndpointResponse()
+        public GetAllTCPEndpointsResponse()
         {
             this.TCPEndpoints = new List<TCPEndpointDTO>();
         }

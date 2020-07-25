@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Members\Commands\" />
-    <Folder Include="Services\Members\Queries\" />
     <Folder Include="Services\TCPEndpoints\Commands\CreateTCPEndpoint\" />
     <Folder Include="Services\TCPEndpoints\Commands\DeleteTCPEndpoint\" />
     <Folder Include="Services\TCPEndpoints\Commands\UpdateTCPEndpoint\" />
@@ -16,7 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
-    <PackageReference Include="Dapper.Contrib" Version="2.0.35" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
   </ItemGroup>
 

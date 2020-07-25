@@ -19,17 +19,17 @@ namespace IPMAN.WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("cara1")]
-        public async Task<GetAllTCPEndpointResponse> GetAllTCPEndpoints1()
+        [Route("efcore")]
+        public async Task<GetAllTCPEndpointsResponse> GetAllTCPEndpointsWithEFCore()
         {
-            return await GetAllTCPEndpointsQuery.Handle1(_context);
+            return await GetAllTCPEndpointsQuery.HandleWithEFCore(_context);
         }
 
         [HttpGet]
-        [Route("cara2")]
-        public async Task<GetAllTCPEndpointResponse> GetAllTCPEndpoints2()
+        [Route("dapper")]
+        public async Task<GetAllTCPEndpointsResponse> GetAllTCPEndpointsWithDapper()
         {
-            return await GetAllTCPEndpointsQuery.Handle2(_unitOfWork);
+            return await GetAllTCPEndpointsQuery.HandleWithDapper(_unitOfWork);
         }
     }
 }

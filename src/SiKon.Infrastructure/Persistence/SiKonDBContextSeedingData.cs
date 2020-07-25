@@ -8,15 +8,22 @@ namespace SiKon.Infrastructure.Persistence
     {
         public static async Task SeedSampleDataAsync(SiKonDBContext context)
         {
-            Member member = new Member
+            Member member1 = new Member
             {
                 Username = "fuady@live.com",
                 FullName = "Fuady Rosma Hidayat"
             };
 
+            Member member2 = new Member
+            {
+                Username = "raka.satria@hotmail.com",
+                FullName = "Raka Satria"
+            };
+
             if (!context.Members.Any())
             {
-                context.Members.Add(member);
+                context.Members.Add(member1);
+                context.Members.Add(member2);
 
                 await context.SaveChangesAsync();
             }
@@ -25,9 +32,8 @@ namespace SiKon.Infrastructure.Persistence
             {
                 for (int i = 1; i <= 10; i++)
                 {
-                    context.TCPEndpoints.Add(new TCPEndpoint
+                    TCPEndpoint tcpEndpoint = new TCPEndpoint
                     {
-                        Member = member,
                         FriendlyName = $"TCP Endpoint No {i}",
                         TargetAddress = $"127.0.0.{i}",
                         PortNumber = 8080 + i,
@@ -36,7 +42,18 @@ namespace SiKon.Infrastructure.Persistence
                         ErrorString = $"Error String {i}",
                         CheckIntervalInMinutes = 5,
                         RequestTimeOutInSeconds = 30
-                    });
+                    };
+
+                    if (i % 2 == 0)
+                    {
+                        tcpEndpoint.Member = member1;
+                    }
+                    else
+                    {
+                        tcpEndpoint.Member = member2;
+                    }
+
+                    context.TCPEndpoints.Add(tcpEndpoint);
                 }
 
                 await context.SaveChangesAsync();

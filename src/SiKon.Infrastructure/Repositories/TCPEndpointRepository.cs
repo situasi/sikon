@@ -50,5 +50,17 @@ namespace SiKon.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<TCPEndpoint>> GetAllIncludeMember()
+        {
+            var sql = "SELECT * FROM TCPEndpoints endpoint INNER JOIN Members member on endpoint.MemberID = member.MemberID";
+
+            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            {
+                connection.Open();
+                var result = await connection.QueryAsync<TCPEndpoint, Member, TCPEndpoint>(sql, (endpoint, member) => { endpoint.Member = member; return endpoint; }, splitOn: "MemberID");
+                return result;
+            }
+        }
     }
 }
