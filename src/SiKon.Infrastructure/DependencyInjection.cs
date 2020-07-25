@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SiKon.Application.Interfaces;
 using SiKon.Infrastructure.Common;
 using SiKon.Infrastructure.Persistence;
+using SiKon.Infrastructure.Repositories;
 using SiKon.Infrastructure.Services;
 
 namespace SiKon.Infrastructure
@@ -22,6 +23,9 @@ namespace SiKon.Infrastructure
 
             services.AddScoped<ISiKonDBContext>(provider => provider.GetService<SiKonDBContext>());
 
+            services.AddTransient<IMemberRepository, MemberRepository>();
+            services.AddTransient<ITCPEndpointRepository, TCPEndpointRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

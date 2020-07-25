@@ -10,7 +10,7 @@ namespace SiKon.Infrastructure.Persistence
         {
             Member member = new Member
             {
-                MemberUsername = "fuady@live.com",
+                Username = "fuady@live.com",
                 FullName = "Fuady Rosma Hidayat"
             };
 

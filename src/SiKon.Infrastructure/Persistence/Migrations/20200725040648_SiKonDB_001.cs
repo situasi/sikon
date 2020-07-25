@@ -11,16 +11,18 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 name: "Members",
                 columns: table => new
                 {
-                    MemberUsername = table.Column<string>(nullable: false),
+                    MemberID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     Modified = table.Column<DateTimeOffset>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.MemberUsername);
+                    table.PrimaryKey("PK_Members", x => x.MemberID);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,7 +35,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     Modified = table.Column<DateTimeOffset>(nullable: false),
                     ModifiedBy = table.Column<string>(nullable: true),
-                    MemberUsername = table.Column<string>(nullable: true),
+                    MemberID = table.Column<int>(nullable: true),
                     FriendlyName = table.Column<string>(nullable: true),
                     TargetAddress = table.Column<string>(nullable: true),
                     PortNumber = table.Column<int>(nullable: false),
@@ -47,17 +49,17 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_TCPEndpoints", x => x.TCPEndpointID);
                     table.ForeignKey(
-                        name: "FK_TCPEndpoints_Members_MemberUsername",
-                        column: x => x.MemberUsername,
+                        name: "FK_TCPEndpoints_Members_MemberID",
+                        column: x => x.MemberID,
                         principalTable: "Members",
-                        principalColumn: "MemberUsername",
+                        principalColumn: "MemberID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TCPEndpoints_MemberUsername",
+                name: "IX_TCPEndpoints_MemberID",
                 table: "TCPEndpoints",
-                column: "MemberUsername");
+                column: "MemberID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -7,8 +7,9 @@ namespace SiKon.Domain.Entities
     public class Member : AuditableEntity
     {
         [Key]
-        public string MemberUsername { get; set; }
+        public int MemberID { get; set; }
 
+        public string Username { get; set; }
         public string FullName { get; set; }
 
         public IList<TCPEndpoint> TCPEndpoints { get; set; }

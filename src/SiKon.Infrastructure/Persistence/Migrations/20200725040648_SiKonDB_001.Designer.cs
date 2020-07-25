@@ -10,7 +10,7 @@ using SiKon.Infrastructure.Persistence;
 namespace SiKon.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SiKonDBContext))]
-    [Migration("20200724150036_SiKonDB_001")]
+    [Migration("20200725040648_SiKonDB_001")]
     partial class SiKonDB_001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,8 +23,10 @@ namespace SiKon.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("SiKon.Domain.Entities.Member", b =>
                 {
-                    b.Property<string>("MemberUsername")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("MemberID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -41,7 +43,10 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MemberUsername");
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MemberID");
 
                     b.ToTable("Members");
                 });
@@ -71,8 +76,8 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                     b.Property<string>("FriendlyName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MemberUsername")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("MemberID")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("Modified")
                         .HasColumnType("datetimeoffset");
@@ -94,7 +99,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
 
                     b.HasKey("TCPEndpointID");
 
-                    b.HasIndex("MemberUsername");
+                    b.HasIndex("MemberID");
 
                     b.ToTable("TCPEndpoints");
                 });
@@ -103,7 +108,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("SiKon.Domain.Entities.Member", "Member")
                         .WithMany("TCPEndpoints")
-                        .HasForeignKey("MemberUsername");
+                        .HasForeignKey("MemberID");
                 });
 #pragma warning restore 612, 618
         }

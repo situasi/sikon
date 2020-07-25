@@ -5,7 +5,6 @@ using SiKon.Domain.Entities;
 
 namespace SiKon.Application.Interfaces
 {
-    // codingannya akan tergantung dari ORM yang kita gunakan
     public interface ISiKonDBContext
     {
         DbSet<Member> Members { get; set; }
