@@ -33,7 +33,7 @@ namespace SiKon.Infrastructure.Repositories
             entity.Modified = _dateTimeOffset.Now;
             entity.ModifiedBy = _currentUser.Username;
              
-            var sql = "INSERT INTO Members (MemberUsername, FullName, Created, CreatedBy, Modified, ModifiedBy) VALUES (@MemberUsername, @FullName, @Status, @Created, @CreatedBy, @Modified, @ModifiedBy);";
+            var sql = @"INSERT INTO ""Members"" (MemberUsername, FullName, Created, CreatedBy, Modified, ModifiedBy) VALUES (@MemberUsername, @FullName, @Status, @Created, @CreatedBy, @Modified, @ModifiedBy);";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
@@ -45,7 +45,7 @@ namespace SiKon.Infrastructure.Repositories
 
         public async Task<int> Delete(int id)
         {
-            var sql = "DELETE FROM Members WHERE MemberID = @MemberID;";
+            var sql = @"DELETE FROM ""Members"" WHERE MemberID = @MemberID;";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
@@ -57,7 +57,7 @@ namespace SiKon.Infrastructure.Repositories
 
         public async Task<Member> Get(int id)
         {
-            var sql = "SELECT * FROM Members WHERE MemberID = @MemberID;";
+            var sql = @"SELECT * FROM ""Members"" WHERE MemberID = @MemberID;";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
@@ -84,7 +84,7 @@ namespace SiKon.Infrastructure.Repositories
             entity.Modified = _dateTimeOffset.Now;
             entity.ModifiedBy = _currentUser.Username;
 
-            var sql = "UPDATE Members SET Username = @Username, FullName = @FullName, Modified = @Modified, ModifiedBy = @ModifiedBy WHERE MemberID = @MemberID;";
+            var sql = @"UPDATE ""Members"" SET Username = @Username, FullName = @FullName, Modified = @Modified, ModifiedBy = @ModifiedBy WHERE MemberID = @MemberID;";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
