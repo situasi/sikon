@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SiKon.Application.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using SiKon.Application.Services.Members.Queries.GetAllMembers;
+using SiKon.Application.Services.Members.Queries.GetMember;
 
 namespace SiKon.WebAPI.Controllers
 {
@@ -9,27 +11,32 @@ namespace SiKon.WebAPI.Controllers
     [Route("api/[controller]")]
     public class MembersController : ControllerBase
     {
-        private readonly ISiKonDBContext _context;
-        private readonly IUnitOfWork _unitOfWork;
+        private IMediator _mediator;
 
-        public MembersController(ISiKonDBContext context, IUnitOfWork unitOfWork)
-        {
-            _context = context;
-            _unitOfWork = unitOfWork;
-        }
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
         [HttpGet]
-        [Route("efcore")]
-        public async Task<GetAllMembersResponse> GetAllMembersWithEFCore()
-        {
-            return await GetAllMembersQuery.HandleWithEFCore(_context);
-        }
-
-        [HttpGet]
-        [Route("dapper")]
         public async Task<GetAllMembersResponse> GetAllMembersWithDapper()
         {
-            return await GetAllMembersQuery.HandleWithDapper(_unitOfWork);
+            GetAllMembersRequest request = new GetAllMembersRequest();
+
+            var response = await Mediator.Send(request);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<GetMemberResponse> GetMemberByMemberID(int id)
+        {
+            GetMemberRequest request = new GetMemberRequest
+            {
+                MemberID = id
+            };
+
+            var response = await Mediator.Send(request);
+
+            return response;
         }
     }
 }

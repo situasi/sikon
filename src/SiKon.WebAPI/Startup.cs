@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SiKon.Application;
 using SiKon.Application.Interfaces;
 using SiKon.Infrastructure;
 using SiKon.WebAPI.Services;
@@ -21,6 +22,7 @@ namespace SiKon.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
+            services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 

@@ -60,7 +60,7 @@ namespace SiKon.Infrastructure.Repositories
 
         public async Task<Member> Get(int id)
         {
-            var sql = @"SELECT * FROM ""Members"" WHERE MemberID = @MemberID;";
+            var sql = @"SELECT * FROM ""Members"" WHERE ""MemberID"" = @MemberID;";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
@@ -73,6 +73,8 @@ namespace SiKon.Infrastructure.Repositories
         public async Task<IEnumerable<Member>> GetAll()
         {
             var sql = @"SELECT * FROM ""Members"";";
+
+            await Task.Delay(1500);
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
