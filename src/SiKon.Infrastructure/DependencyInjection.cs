@@ -17,7 +17,7 @@ namespace SiKon.Infrastructure
             services.AddTransient<IDateTimeOffsetService, DateTimeOffsetService>();
 
             services.AddDbContext<SiKonDBContext>(options =>
-                options.UseSqlServer(
+                options.UseNpgsql(
                     configuration.GetConnectionString(ConnectionStringName.SiKonDatabase),
                     b => b.MigrationsAssembly(typeof(SiKonDBContext).Assembly.FullName)));
 

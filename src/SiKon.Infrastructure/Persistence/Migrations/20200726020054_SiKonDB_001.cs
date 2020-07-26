@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SiKon.Infrastructure.Persistence.Migrations
 {
@@ -12,7 +13,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     MemberID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     Modified = table.Column<DateTimeOffset>(nullable: false),
@@ -30,7 +31,7 @@ namespace SiKon.Infrastructure.Persistence.Migrations
                 columns: table => new
                 {
                     TCPEndpointID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Created = table.Column<DateTimeOffset>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     Modified = table.Column<DateTimeOffset>(nullable: false),

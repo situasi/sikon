@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 using SiKon.Application.Interfaces;
 using SiKon.Domain.Entities;
 using SiKon.Infrastructure.Common;
@@ -35,7 +35,7 @@ namespace SiKon.Infrastructure.Repositories
              
             var sql = "INSERT INTO Members (MemberUsername, FullName, Created, CreatedBy, Modified, ModifiedBy) VALUES (@MemberUsername, @FullName, @Status, @Created, @CreatedBy, @Modified, @ModifiedBy);";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var affectedRows = await connection.ExecuteAsync(sql, entity);
@@ -47,7 +47,7 @@ namespace SiKon.Infrastructure.Repositories
         {
             var sql = "DELETE FROM Members WHERE MemberID = @MemberID;";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var affectedRows = await connection.ExecuteAsync(sql, new { MemberID = id });
@@ -59,7 +59,7 @@ namespace SiKon.Infrastructure.Repositories
         {
             var sql = "SELECT * FROM Members WHERE MemberID = @MemberID;";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<Member>(sql, new { MemberID = id });
@@ -69,9 +69,9 @@ namespace SiKon.Infrastructure.Repositories
 
         public async Task<IEnumerable<Member>> GetAll()
         {
-            var sql = "SELECT * FROM Members;";
+            var sql = @"SELECT * FROM ""Members"";";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<Member>(sql);
@@ -86,7 +86,7 @@ namespace SiKon.Infrastructure.Repositories
 
             var sql = "UPDATE Members SET Username = @Username, FullName = @FullName, Modified = @Modified, ModifiedBy = @ModifiedBy WHERE MemberID = @MemberID;";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var affectedRows = await connection.ExecuteAsync(sql, entity);

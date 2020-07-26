@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 using SiKon.Application.Interfaces;
 using SiKon.Domain.Entities;
 using SiKon.Infrastructure.Common;
@@ -38,7 +38,7 @@ namespace SiKon.Infrastructure.Repositories
         {
             var sql = "SELECT * FROM TCPEndpoints;";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<TCPEndpoint>(sql);
@@ -55,7 +55,7 @@ namespace SiKon.Infrastructure.Repositories
         {
             var sql = "SELECT * FROM TCPEndpoints endpoint INNER JOIN Members member on endpoint.MemberID = member.MemberID";
 
-            using (var connection = new SqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
                 connection.Open();
                 var result = await connection.QueryAsync<TCPEndpoint, Member, TCPEndpoint>(sql, (endpoint, member) => { endpoint.Member = member; return endpoint; }, splitOn: "MemberID");
