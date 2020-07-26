@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Services\Members\Commands\" />
-    <Folder Include="Services\TCPEndpoints\Commands\CreateTCPEndpoint\" />
     <Folder Include="Services\TCPEndpoints\Commands\DeleteTCPEndpoint\" />
     <Folder Include="Services\TCPEndpoints\Commands\UpdateTCPEndpoint\" />
     <Folder Include="Services\TCPEndpoints\Queries\GetTCPEndpoint\" />

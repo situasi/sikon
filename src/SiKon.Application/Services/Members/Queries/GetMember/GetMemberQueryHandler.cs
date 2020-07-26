@@ -11,16 +11,20 @@ namespace SiKon.Application.Services.Members.Queries.GetMember
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IBackgroundJobScheduler _scheduler;
 
-        public GetMemberQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetMemberQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IBackgroundJobScheduler scheduler)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _scheduler = scheduler;
         }
 
         public async Task<GetMemberResponse> Handle(GetMemberRequest request, CancellationToken cancellationToken)
         {
             var member = await _unitOfWork.Members.Get(request.MemberID);
+
+            await _scheduler.RegisterToScheduler("Get Member nich!");
 
             var response = _mapper.Map<GetMemberResponse>(member);
 
