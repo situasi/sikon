@@ -33,7 +33,7 @@ namespace SiKon.Infrastructure.Repositories
             entity.Modified = _dateTimeOffset.Now;
             entity.ModifiedBy = _currentUser.Username;
              
-            var sql = @"INSERT INTO ""Members"" (MemberUsername, FullName, Created, CreatedBy, Modified, ModifiedBy) VALUES (@MemberUsername, @FullName, @Status, @Created, @CreatedBy, @Modified, @ModifiedBy);";
+            var sql = @"INSERT INTO ""Members"" (Username, FullName, Created, CreatedBy, Modified, ModifiedBy) VALUES (@Username, @FullName, @Status, @Created, @CreatedBy, @Modified, @ModifiedBy);";
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)))
             {
