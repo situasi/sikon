@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace SiKon.Application.Services.Members.Queries.GetMember
+namespace SiKon.Shared.Services.Members.Queries.GetMember
 {
     public class GetMemberRequest : IRequest<GetMemberResponse>
     {

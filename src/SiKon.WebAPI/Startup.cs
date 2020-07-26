@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using SiKon.Application;
 using SiKon.Application.Interfaces;
 using SiKon.Infrastructure;
+using SiKon.Shared;
 using SiKon.WebAPI.Services;
 
 namespace SiKon.WebAPI
@@ -22,6 +23,7 @@ namespace SiKon.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
+            services.AddShared();
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddScoped<ICurrentUserService, CurrentUserService>();

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using SiKon.Application.Services.Members.Queries.GetAllMembers;
-using SiKon.Application.Services.Members.Queries.GetMember;
+using SiKon.Shared.Services.Members.Queries.GetMember;
 
 namespace SiKon.WebAPI.Controllers
 {
