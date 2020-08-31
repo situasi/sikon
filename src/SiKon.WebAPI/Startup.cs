@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -40,7 +41,10 @@ namespace SiKon.WebAPI
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
+            
+            //app.UseAuthorization();
+
+            app.UseHangfireDashboard("/jobs");
 
             app.UseEndpoints(endpoints =>
             {
