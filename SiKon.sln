@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiKon.Infrastructure", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiKon.WebAPI", "src\SiKon.WebAPI\SiKon.WebAPI.csproj", "{EE476FEC-F6A6-4819-B34B-07E44CE1963B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiKon.Shared", "src\SiKon.Shared\SiKon.Shared.csproj", "{5807643C-2B23-4330-A2EA-79855AC6C1DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiKon.Shared", "src\SiKon.Shared\SiKon.Shared.csproj", "{5807643C-2B23-4330-A2EA-79855AC6C1DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

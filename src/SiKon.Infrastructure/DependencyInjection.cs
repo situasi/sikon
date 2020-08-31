@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SiKon.Application.Interfaces;
@@ -28,6 +30,11 @@ namespace SiKon.Infrastructure
             services.AddTransient<ITCPEndpointRepository, TCPEndpointRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IBackgroundJobScheduler, BackgroundJobScheduler>();
+
+            services.AddHangfire(config =>
+                config.UsePostgreSqlStorage(configuration.GetConnectionString(ConnectionStringName.SiKonDatabase)));
+
+            services.AddHangfireServer();
 
             services.AddSerilog(configuration);
 
