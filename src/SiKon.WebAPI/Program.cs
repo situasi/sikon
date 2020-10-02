@@ -1,42 +1,50 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SiKon.Infrastructure.Persistence;
+using Serilog;
+using SiKon.WebAPI.SerilogEnrichers;
 
 namespace SiKon.WebAPI
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile($"{AppContext.BaseDirectory}appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"{AppContext.BaseDirectory}appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+            .AddEnvironmentVariables()
+            .Build();
+        public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(Configuration)
+                .Enrich.With<EventTypeEnricher>()
+                .Enrich.WithProperty("Version", typeof(Program).Assembly.GetName().Version)
+                .Enrich.WithProperty("ApplicationName", Configuration["App:Name"])
+                .CreateLogger();
 
-            using (var scope = host.Services.CreateScope())
+            Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
+
+            try
             {
-                var services = scope.ServiceProvider;
+                Log.Information("Getting the service running...");
 
-                try
-                {
-                    var context = services.GetRequiredService<SiKonDBContext>();
-                    context.Database.Migrate();
-
-                    await SiKonDBContextSeedingData.SeedSampleDataAsync(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-                    logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
-                    throw;
-                }
+                CreateHostBuilder(args).Build().Run();
             }
-
-            await host.RunAsync();
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -44,6 +52,7 @@ namespace SiKon.WebAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseSerilog();
     }
 }
